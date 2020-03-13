@@ -35,12 +35,23 @@ public class DemoRoute extends RouteBuilder {
         from("rest://get:2echoGet/{echoValue}").process(new Processor() {
             @Override
             public void process(Exchange exchange) throws Exception {
-                System.out.println(exchange.getIn().getHeader("echoValue"));
+                String echoValue = exchange.getIn().getHeader("echoValue").toString();
+                if (echoValue.compareToIgnoreCase("FAIL") == 0) {
+                	throw new Exception("fail");
+                } else if (echoValue.compareToIgnoreCase("SLEEP") == 0) {
+                	Thread.sleep(5000);
+                }
+                System.out.println(echoValue);
                 exchange.getMessage().setBody(exchange.getIn().getHeader("echoValue"));
             }
         });
 
-
+        /*
+		from("file:C:/inboxPOST?noop=true").process(new CreateEmployeeProcessor()).marshal(jsonDataFormat)
+		.setHeader(Exchange.HTTP_METHOD, simple("POST"))
+		.setHeader(Exchange.CONTENT_TYPE, constant("application/json")).to("http://localhost:8080/employee")
+		.process(new MyProcessor());
+		*/
 
 //        rest("hi").get("/get").to("direct:processGet");
 //
