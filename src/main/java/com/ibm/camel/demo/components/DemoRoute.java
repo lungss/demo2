@@ -29,8 +29,8 @@ public class DemoRoute extends RouteBuilder {
             }
         })
         .setHeader(Exchange.HTTP_METHOD, constant(org.apache.camel.component.http.HttpMethods.GET))
-        // .to("http://localhost:8080/echoGet/helo?bridgeEndpoint=true");
-        .to("http://istio-ingressgateway-istio-system.mycluster-na-d4a42c1d53effecb3a546f2cced5589b-0000.sjc03.containers.appdomain.cloud/echoget/helloworld?bridgeEndpoint=true");
+        // .to("http://istio-ingressgateway-istio-system.mycluster-na-d4a42c1d53effecb3a546f2cced5589b-0000.sjc03.containers.appdomain.cloud/echoget/helloworld?bridgeEndpoint=true");
+        .to("http://epf-account/echoget/helloworld?bridgeEndpoint=true");
 
         from("rest://get:2echoGet/{echoValue}").process(new Processor() {
             @Override
